@@ -1,0 +1,1866 @@
+openapi: 3.1.0
+info:
+  title: SMS API Server
+  description: Internal API
+  version: 1.0.0
+servers:
+- url: http://localhost:8000
+- url: https://api.gritticon.com
+paths:
+  /health:
+    get:
+      summary: Health Check
+      operationId: health_check_sms_api_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - BearerAuth: []
+  /customers/:
+    post:
+      tags:
+      - customers
+      summary: Create Customer
+      operationId: create_customer_sms_api_customers__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    get:
+      tags:
+      - customers
+      summary: List Customers
+      operationId: list_customers_sms_api_customers__get
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+          title: Page
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 100
+          title: Page Size
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+  /customers/{school_id}:
+    get:
+      tags:
+      - customers
+      summary: Get Customer
+      operationId: get_customer_sms_api_customers__school_id__get
+      parameters:
+      - name: school_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: School Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    put:
+      tags:
+      - customers
+      summary: Update Customer
+      operationId: update_customer_sms_api_customers__school_id__put
+      parameters:
+      - name: school_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: School Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+  /auth/login:
+    post:
+      tags:
+      - authentication
+      summary: Login
+      operationId: login_sms_api_auth_login_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/logout:
+    post:
+      tags:
+      - authentication
+      summary: Logout
+      operationId: logout_sms_api_auth_logout_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoutResponse'
+      security:
+      - BearerAuth: []
+  /auth/refresh:
+    post:
+      tags:
+      - authentication
+      summary: Refresh Token
+      operationId: refresh_token_sms_api_auth_refresh_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshTokenResponse'
+      security:
+      - BearerAuth: []
+  /auth/verify:
+    get:
+      tags:
+      - authentication
+      summary: Verify Token
+      operationId: verify_token_sms_api_auth_verify_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyTokenResponse'
+      security:
+      - BearerAuth: []
+  /staff/:
+    get:
+      tags:
+      - staff
+      summary: List Staff
+      operationId: list_staff_sms_api_staff__get
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+          title: Page
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 100
+          title: Page Size
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    post:
+      tags:
+      - staff
+      summary: Create Staff
+      operationId: create_staff_sms_api_staff__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StaffCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+  /staff/{staff_id}:
+    get:
+      tags:
+      - staff
+      summary: Get Staff
+      operationId: get_staff_sms_api_staff__staff_id__get
+      parameters:
+      - name: staff_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Staff Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    put:
+      tags:
+      - staff
+      summary: Update Staff
+      operationId: update_staff_sms_api_staff__staff_id__put
+      parameters:
+      - name: staff_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Staff Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StaffUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    delete:
+      tags:
+      - staff
+      summary: Delete Staff
+      operationId: delete_staff_sms_api_staff__staff_id__delete
+      parameters:
+      - name: staff_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Staff Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+  /classes/:
+    get:
+      tags:
+      - classes
+      summary: List Classes
+      operationId: list_classes_sms_api_classes__get
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+          title: Page
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 100
+          title: Page Size
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    post:
+      tags:
+      - classes
+      summary: Create Class
+      operationId: create_class_sms_api_classes__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+  /classes/{class_id}:
+    get:
+      tags:
+      - classes
+      summary: Get Class
+      operationId: get_class_sms_api_classes__class_id__get
+      parameters:
+      - name: class_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Class Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    put:
+      tags:
+      - classes
+      summary: Update Class
+      operationId: update_class_sms_api_classes__class_id__put
+      parameters:
+      - name: class_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Class Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    delete:
+      tags:
+      - classes
+      summary: Delete Class
+      operationId: delete_class_sms_api_classes__class_id__delete
+      parameters:
+      - name: class_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Class Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+  /sections/:
+    get:
+      tags:
+      - sections
+      summary: List Sections
+      operationId: list_sections_sms_api_sections__get
+      parameters:
+      - name: class_id
+        in: query
+        required: false
+        schema:
+          type: integer
+          title: Class Id
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+          title: Page
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 100
+          title: Page Size
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SectionListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    post:
+      tags:
+      - sections
+      summary: Create Section
+      operationId: create_section_sms_api_sections__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SectionCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SectionDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+  /sections/{section_id}:
+    get:
+      tags:
+      - sections
+      summary: Get Section
+      operationId: get_section_sms_api_sections__section_id__get
+      parameters:
+      - name: section_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Section Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SectionDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    put:
+      tags:
+      - sections
+      summary: Update Section
+      operationId: update_section_sms_api_sections__section_id__put
+      parameters:
+      - name: section_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Section Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SectionUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SectionDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    delete:
+      tags:
+      - sections
+      summary: Delete Section
+      operationId: delete_section_sms_api_sections__section_id__delete
+      parameters:
+      - name: section_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Section Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+  /roles/:
+    get:
+      tags:
+      - roles
+      summary: List Roles
+      operationId: list_roles_sms_api_roles__get
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+          title: Page
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 100
+          title: Page Size
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    post:
+      tags:
+      - roles
+      summary: Create Role
+      operationId: create_role_sms_api_roles__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+  /roles/{role_id}:
+    get:
+      tags:
+      - roles
+      summary: Get Role
+      operationId: get_role_sms_api_roles__role_id__get
+      parameters:
+      - name: role_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Role Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    put:
+      tags:
+      - roles
+      summary: Update Role
+      operationId: update_role_sms_api_roles__role_id__put
+      parameters:
+      - name: role_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Role Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    delete:
+      tags:
+      - roles
+      summary: Delete Role
+      operationId: delete_role_sms_api_roles__role_id__delete
+      parameters:
+      - name: role_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Role Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+  /departments/:
+    get:
+      tags:
+      - departments
+      summary: List Departments
+      operationId: list_departments_sms_api_departments__get
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+          title: Page
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 100
+          title: Page Size
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartmentListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    post:
+      tags:
+      - departments
+      summary: Create Department
+      operationId: create_department_sms_api_departments__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepartmentCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartmentDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+  /departments/{department_id}:
+    get:
+      tags:
+      - departments
+      summary: Get Department
+      operationId: get_department_sms_api_departments__department_id__get
+      parameters:
+      - name: department_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Department Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartmentDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    put:
+      tags:
+      - departments
+      summary: Update Department
+      operationId: update_department_sms_api_departments__department_id__put
+      parameters:
+      - name: department_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Department Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepartmentUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartmentDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+    delete:
+      tags:
+      - departments
+      summary: Delete Department
+      operationId: delete_department_sms_api_departments__department_id__delete
+      parameters:
+      - name: department_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Department Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - BearerAuth: []
+  /:
+    get:
+      summary: Root
+      operationId: root_sms_api__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - BearerAuth: []
+components:
+  schemas:
+    ClassCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        code:
+          type: string
+          maxLength: 50
+          minLength: 1
+          title: Code
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      required:
+      - name
+      - code
+      title: ClassCreate
+    ClassDetailResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          $ref: '#/components/schemas/ClassResponse'
+        message:
+          type: string
+          title: Message
+          default: Operation successful
+      type: object
+      required:
+      - data
+      title: ClassDetailResponse
+    ClassListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          items:
+            $ref: '#/components/schemas/ClassResponse'
+          type: array
+          title: Data
+        message:
+          type: string
+          title: Message
+          default: Operation successful
+      type: object
+      required:
+      - data
+      title: ClassListResponse
+    ClassResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        code:
+          type: string
+          title: Code
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - id
+      - name
+      - code
+      - description
+      - created_at
+      - updated_at
+      title: ClassResponse
+    ClassUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Name
+        code:
+          anyOf:
+          - type: string
+            maxLength: 50
+            minLength: 1
+          - type: 'null'
+          title: Code
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      title: ClassUpdate
+    CustomerCreate:
+      properties:
+        school_id:
+          type: integer
+          maximum: 999999.0
+          minimum: 1.0
+          title: School Id
+        school_name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: School Name
+        contact_email:
+          anyOf:
+          - type: string
+            format: email
+          - type: 'null'
+          title: Contact Email
+        contact_phone:
+          anyOf:
+          - type: string
+            maxLength: 20
+          - type: 'null'
+          title: Contact Phone
+        address:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Address
+        status:
+          $ref: '#/components/schemas/SchoolStatus'
+          default: trial
+      type: object
+      required:
+      - school_id
+      - school_name
+      title: CustomerCreate
+    CustomerListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          items:
+            $ref: '#/components/schemas/CustomerResponse'
+          type: array
+          title: Data
+        message:
+          type: string
+          title: Message
+          default: Operation successful
+        total:
+          type: integer
+          title: Total
+        page:
+          type: integer
+          title: Page
+        page_size:
+          type: integer
+          title: Page Size
+      type: object
+      required:
+      - data
+      - total
+      - page
+      - page_size
+      title: CustomerListResponse
+    CustomerResponse:
+      properties:
+        school_id:
+          type: integer
+          title: School Id
+        school_name:
+          type: string
+          title: School Name
+        status:
+          $ref: '#/components/schemas/SchoolStatus'
+        charged_amount:
+          type: number
+          title: Charged Amount
+        contact_email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Contact Email
+        contact_phone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Contact Phone
+        address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Address
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - school_id
+      - school_name
+      - status
+      - charged_amount
+      - contact_email
+      - contact_phone
+      - address
+      - created_at
+      - updated_at
+      title: CustomerResponse
+    CustomerUpdate:
+      properties:
+        school_name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: School Name
+        contact_email:
+          anyOf:
+          - type: string
+            format: email
+          - type: 'null'
+          title: Contact Email
+        contact_phone:
+          anyOf:
+          - type: string
+            maxLength: 20
+          - type: 'null'
+          title: Contact Phone
+        address:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Address
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/SchoolStatus'
+          - type: 'null'
+        charged_amount:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Charged Amount
+      type: object
+      title: CustomerUpdate
+    DepartmentCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      required:
+      - name
+      title: DepartmentCreate
+    DepartmentDetailResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          $ref: '#/components/schemas/DepartmentResponse'
+        message:
+          type: string
+          title: Message
+          default: Operation successful
+      type: object
+      required:
+      - data
+      title: DepartmentDetailResponse
+    DepartmentListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          items:
+            $ref: '#/components/schemas/DepartmentResponse'
+          type: array
+          title: Data
+        message:
+          type: string
+          title: Message
+          default: Operation successful
+      type: object
+      required:
+      - data
+      title: DepartmentListResponse
+    DepartmentResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - created_at
+      - updated_at
+      title: DepartmentResponse
+    DepartmentUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      title: DepartmentUpdate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    LoginRequest:
+      properties:
+        school_id:
+          type: integer
+          maximum: 999999.0
+          minimum: 0.0
+          title: School Id
+        email:
+          type: string
+          format: email
+          title: Email
+        password:
+          type: string
+          minLength: 1
+          title: Password
+      type: object
+      required:
+      - school_id
+      - email
+      - password
+      title: LoginRequest
+    LoginResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          additionalProperties: true
+          type: object
+          title: Data
+        message:
+          type: string
+          title: Message
+          default: Login successful
+      type: object
+      required:
+      - data
+      title: LoginResponse
+    LogoutResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
+          default: Logout successful
+      type: object
+      title: LogoutResponse
+    RefreshTokenResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          additionalProperties: true
+          type: object
+          title: Data
+        message:
+          type: string
+          title: Message
+          default: Token refreshed successfully
+      type: object
+      required:
+      - data
+      title: RefreshTokenResponse
+    RoleCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      required:
+      - name
+      title: RoleCreate
+    RoleDetailResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          $ref: '#/components/schemas/RoleResponse'
+        message:
+          type: string
+          title: Message
+          default: Operation successful
+      type: object
+      required:
+      - data
+      title: RoleDetailResponse
+    RoleListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          items:
+            $ref: '#/components/schemas/RoleResponse'
+          type: array
+          title: Data
+        message:
+          type: string
+          title: Message
+          default: Operation successful
+      type: object
+      required:
+      - data
+      title: RoleListResponse
+    RoleResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - created_at
+      - updated_at
+      title: RoleResponse
+    RoleUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      title: RoleUpdate
+    SchoolStatus:
+      type: string
+      enum:
+      - active
+      - inactive
+      - suspended
+      - trial
+      title: SchoolStatus
+    SectionCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        code:
+          type: string
+          maxLength: 50
+          minLength: 1
+          title: Code
+        class_id:
+          type: integer
+          exclusiveMinimum: 0.0
+          title: Class Id
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      required:
+      - name
+      - code
+      - class_id
+      title: SectionCreate
+    SectionDetailResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          $ref: '#/components/schemas/SectionResponse'
+        message:
+          type: string
+          title: Message
+          default: Operation successful
+      type: object
+      required:
+      - data
+      title: SectionDetailResponse
+    SectionListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          items:
+            $ref: '#/components/schemas/SectionResponse'
+          type: array
+          title: Data
+        message:
+          type: string
+          title: Message
+          default: Operation successful
+      type: object
+      required:
+      - data
+      title: SectionListResponse
+    SectionResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        code:
+          type: string
+          title: Code
+        class_id:
+          type: integer
+          title: Class Id
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - id
+      - name
+      - code
+      - class_id
+      - description
+      - created_at
+      - updated_at
+      title: SectionResponse
+    SectionUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Name
+        code:
+          anyOf:
+          - type: string
+            maxLength: 50
+            minLength: 1
+          - type: 'null'
+          title: Code
+        class_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0.0
+          - type: 'null'
+          title: Class Id
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      title: SectionUpdate
+    StaffCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        email:
+          type: string
+          format: email
+          title: Email
+        password:
+          type: string
+          minLength: 6
+          title: Password
+        phone:
+          anyOf:
+          - type: string
+            maxLength: 20
+          - type: 'null'
+          title: Phone
+        role_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Role Id
+        department_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Department Id
+      type: object
+      required:
+      - name
+      - email
+      - password
+      title: StaffCreate
+    StaffDetailResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          $ref: '#/components/schemas/StaffResponse'
+        message:
+          type: string
+          title: Message
+          default: Operation successful
+      type: object
+      required:
+      - data
+      title: StaffDetailResponse
+    StaffListResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          items:
+            $ref: '#/components/schemas/StaffResponse'
+          type: array
+          title: Data
+        message:
+          type: string
+          title: Message
+          default: Operation successful
+      type: object
+      required:
+      - data
+      title: StaffListResponse
+    StaffResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        email:
+          type: string
+          title: Email
+        phone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone
+        role_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Role Id
+        department_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Department Id
+        is_active:
+          type: boolean
+          title: Is Active
+        last_login_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Login At
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - id
+      - name
+      - email
+      - phone
+      - role_id
+      - department_id
+      - is_active
+      - last_login_at
+      - created_at
+      - updated_at
+      title: StaffResponse
+    StaffUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Name
+        email:
+          anyOf:
+          - type: string
+            format: email
+          - type: 'null'
+          title: Email
+        phone:
+          anyOf:
+          - type: string
+            maxLength: 20
+          - type: 'null'
+          title: Phone
+        role_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Role Id
+        department_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Department Id
+        is_active:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Active
+      type: object
+      title: StaffUpdate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    VerifyTokenResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+          default: true
+        data:
+          additionalProperties: true
+          type: object
+          title: Data
+        message:
+          type: string
+          title: Message
+          default: Token is valid
+      type: object
+      required:
+      - data
+      title: VerifyTokenResponse
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
