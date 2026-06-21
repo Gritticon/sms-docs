@@ -6,3 +6,11 @@
 /planning/
 /scans/
 /sms-ui-shell/
+.cursor/
+.claude/
+agents.md
+claude.md
+
+# Generated code intelligence (local only; regenerate with graphify / gitnexus CLI)
+graphify-out/
+.gitnexus/

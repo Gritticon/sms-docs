@@ -10,7 +10,12 @@ last-updated: 2026-04-08
 
 ## Status
 
-**Needs spec** — Feature is in the product roadmap (Module 2) but has no SMS-UI implementation specification.
+**Gap analysis complete** — Full multi-layer gap analysis produced 2026-05-29.
+See [`communication-hub-gap-analysis.md`](communication-hub-gap-analysis.md) for all findings,
+priority table, and recommended sprint sequence (Sprints 1–6).
+
+**Implementation detected, QA not signed off.** 35+ gaps identified across API, UI, design,
+dashboard integration, cross-project linkage, and security. 4 P0 bugs require fix before QA.
 
 ## What this feature is
 

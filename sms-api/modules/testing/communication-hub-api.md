@@ -10,7 +10,14 @@ last-updated: 2026-04-08
 
 ## Status
 
-**Needs spec** — No communication endpoints exist in the current SMS-API. Both SMS-UI (staff sends) and KYC (parent/student receives) depend on this.
+**Implemented, not specced, gaps found** — Routes exist under `/communications/*` and `/kyc/messages`,
+`/kyc/post`, `/kyc/notifications`. Full gap analysis produced 2026-05-29.
+See [`../../../sms-ui/modules/testing/communication-hub-gap-analysis.md`](../../../sms-ui/modules/testing/communication-hub-gap-analysis.md).
+
+Key API gaps: no DELETE/UPDATE endpoints, wrong permission ID on notifications (101→102),
+conversation unique constraint missing `target_role`, `_sync_conversations_for_class_section`
+N-write storm on every list request, no read/unread endpoint, no push dispatch, no school-wide
+broadcast scope.
 
 ## What this API needs to cover
 
